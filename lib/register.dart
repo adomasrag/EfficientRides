@@ -7,7 +7,6 @@ class MyRegister extends StatefulWidget {
   @override
   _MyRegisterState createState() => _MyRegisterState();
 }
-iii
 class _MyRegisterState extends State<MyRegister> {
   @override
   Widget build(BuildContext context) {
