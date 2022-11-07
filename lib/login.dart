@@ -40,7 +40,7 @@ class _MyLoginState extends State<MyLogin> {
                       child: Column(
                         children: [
                           TextField(
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
                                 filled: true,
@@ -72,7 +72,7 @@ class _MyLoginState extends State<MyLogin> {
                               Text(
                                 'Sign in',
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 27, fontWeight: FontWeight.w700),
+                                    color: Colors.white, fontSize: 27, fontWeight: FontWeight.w700),
                               ),
                               CircleAvatar(
                                 radius: 30,
@@ -107,7 +107,7 @@ class _MyLoginState extends State<MyLogin> {
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       decoration: TextDecoration.underline,
-                                      color: Color(0xff4c505b),
+                                      color: Colors.white,
                                       fontSize: 18),
                                 ),
                                 style: ButtonStyle(),
@@ -118,7 +118,7 @@ class _MyLoginState extends State<MyLogin> {
                                     'Forgot Password',
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,
-                                      color: Color(0xff4c505b),
+                                      color: Colors.white,
                                       fontSize: 18,
                                     ),
                                   )),
