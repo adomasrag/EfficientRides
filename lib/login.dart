@@ -40,7 +40,7 @@ class _MyLoginState extends State<MyLogin> {
                       child: Column(
                         children: [
                           TextField(
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
                                 filled: true,
@@ -53,7 +53,7 @@ class _MyLoginState extends State<MyLogin> {
                             height: 30,
                           ),
                           TextField(
-                            style: TextStyle(),
+                            style: TextStyle(color: Colors.black),
                             obscureText: true,
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
