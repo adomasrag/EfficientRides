@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loginuicolors/register.dart';
-import 'main.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
@@ -8,6 +7,7 @@ class MyLogin extends StatefulWidget {
   @override
   _MyLoginState createState() => _MyLoginState();
 }
+
 //aaa
 class _MyLoginState extends State<MyLogin> {
   @override
@@ -15,7 +15,8 @@ class _MyLoginState extends State<MyLogin> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/efficientRides-11.png'), fit: BoxFit.cover),
+            image: AssetImage('assets/efficientRides-11.png'),
+            fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -25,7 +26,10 @@ class _MyLoginState extends State<MyLogin> {
               padding: EdgeInsets.only(left: 35, top: 130),
               child: Text(
                 'efficientRides',
-                style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w700),
               ),
             ),
             SingleChildScrollView(
@@ -72,7 +76,9 @@ class _MyLoginState extends State<MyLogin> {
                               Text(
                                 'Sign in',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 27, fontWeight: FontWeight.w700),
+                                    color: Colors.white,
+                                    fontSize: 27,
+                                    fontWeight: FontWeight.w700),
                               ),
                               CircleAvatar(
                                 radius: 30,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loginuicolors/login.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -7,13 +6,15 @@ class MyRegister extends StatefulWidget {
   @override
   _MyRegisterState createState() => _MyRegisterState();
 }
+
 class _MyRegisterState extends State<MyRegister> {
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/efficientRides-11.png'), fit: BoxFit.cover),
+            image: AssetImage('assets/efficientRides-11.png'),
+            fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
