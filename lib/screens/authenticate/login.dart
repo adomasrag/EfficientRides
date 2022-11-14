@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loginuicolors/register.dart';
+import 'package:loginuicolors/screens/authenticate/register.dart';
+import 'package:loginuicolors/services/auth_services.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
@@ -8,8 +9,9 @@ class MyLogin extends StatefulWidget {
   _MyLoginState createState() => _MyLoginState();
 }
 
-//aaa
 class _MyLoginState extends State<MyLogin> {
+  final AuthService _authService = AuthService();
+  String error = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,7 +76,7 @@ class _MyLoginState extends State<MyLogin> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Sign in',
+                                'Sign In',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 27,
@@ -85,12 +87,9 @@ class _MyLoginState extends State<MyLogin> {
                                 backgroundColor: Color(0xff4c505b),
                                 child: IconButton(
                                     color: Colors.white,
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyRegister()));
+                                    onPressed: () async {
+                                      dynamic result = await _authService
+                                          .signInAnonymously();
                                     },
                                     icon: Icon(
                                       Icons.arrow_forward,
@@ -103,32 +102,7 @@ class _MyLoginState extends State<MyLogin> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, 'register');
-                                },
-                                child: Text(
-                                  'Sign Up',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Colors.white,
-                                      fontSize: 18),
-                                ),
-                                style: ButtonStyle(),
-                              ),
-                              TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'Forgot Password',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                    ),
-                                  )),
-                            ],
+                            children: [],
                           )
                         ],
                       ),
