@@ -159,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-            image: AssetImage("assets/register.png"),
+            image: AssetImage("assets/register.jpg"),
             fit: BoxFit.cover,
           )),
           width: w,

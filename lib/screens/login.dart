@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
           body: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage("assets/login.png"),
+              image: AssetImage("assets/login.jpg"),
               fit: BoxFit.cover,
             )),
             width: w,

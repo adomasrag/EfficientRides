@@ -74,10 +74,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   delay: 1,
                   child: Container(
                     margin: const EdgeInsets.only(right: 35),
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/Flutter.png")),
-                    ),
                     height: h / 4,
                     width: w / 1.5,
                   ),
