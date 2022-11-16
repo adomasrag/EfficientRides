@@ -159,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-            image: AssetImage("assets/register.jpg"),
+            image: AssetImage("assets/efficientRides-11.jpg"),
             fit: BoxFit.cover,
           )),
           width: w,
@@ -182,8 +182,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: const Text(
                       "Kviečiame prisiregistruoti!",
                       style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                         fontSize: 22,
                       ),
                     ),
@@ -264,13 +264,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 17,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.bold,
                             ),
                             children: [
                               TextSpan(
                                   text: " Log in",
                                   style: TextStyle(
-                                      color: Theme.of(context).primaryColor))
+                                    color: Color.fromRGBO(15, 114, 195, 1),
+                                    fontWeight: FontWeight.bold,
+                                  ))
                             ]),
                       ),
                     ),

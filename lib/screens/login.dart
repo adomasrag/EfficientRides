@@ -101,7 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
           /// APP BAR
           appBar: AppBar(
-            title: const Text("efficientRides"),
+            title: const Text("efficientRides",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                )),
             centerTitle: true,
           ),
 
@@ -109,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
           body: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage("assets/login.jpg"),
+              image: AssetImage("assets/efficientRides-11.jpg"),
               fit: BoxFit.cover,
             )),
             width: w,
@@ -121,13 +124,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    /// FLUTTER IMAGE
+                    /// LOGO IMAGE
                     FadeAnimation(
                       delay: 1,
                       child: Container(
-                        margin: const EdgeInsets.only(right: 35),
                         height: h / 4,
                         width: w / 1.5,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage("assets/vw.jpg"),
+                          fit: BoxFit.cover,
+                        )),
                       ),
                     ),
                     const SizedBox(
@@ -141,13 +148,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Prašome prisijungti! :)",
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.bold,
                           fontSize: 22,
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 35,
                     ),
 
                     /// Email TextField
@@ -198,9 +205,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: const Text(
                                 "Forgot Password?",
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  color: Color.fromRGBO(15, 114, 195, 1),
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             )),
@@ -235,13 +242,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 17,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.bold,
                               ),
                               children: [
                                 TextSpan(
                                     text: " Register",
                                     style: TextStyle(
-                                        color: Theme.of(context).primaryColor))
+                                      color: Color.fromRGBO(15, 114, 195, 1),
+                                      fontWeight: FontWeight.bold,
+                                    ))
                               ]),
                         ),
                       ),
