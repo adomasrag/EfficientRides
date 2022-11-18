@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loginuicolors/screens/settings.dart';
 //
 import '../animation/fadeanimation.dart';
 
@@ -23,25 +24,87 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       /// APP BAR
       appBar: AppBar(
-        title: const Text("efficientRides"),
-        centerTitle: true,
-      ),
-      body: SizedBox(
-        width: w,
-        child: Column(
-          children: [
-            /// FLUTTER IMAGE
-            FadeAnimation(
-              delay: 1,
-              child: Container(
-                height: h / 4,
-                width: w / 1.5,
+          title: const Text("efficientRides"),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(content: Text('Something')));
+              },
+            ),
+          ]),
+
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.teal.shade200,
+              ),
+              child: Row(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage("assets/vw.jpg"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                    child: Text(
+                      'Vardas Pavarde',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-
+            ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Žinutės'),
+                onTap: () {
+                  Navigator.pop(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Profilis'),
+                onTap: () {
+                  Navigator.pop(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Nustatymai'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsScreen()),
+                  );
+                }),
+          ],
+        ),
+      ),
+      body: Container(
+        width: w,
+        height: h,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/efficientRides-11.jpg"),
+          fit: BoxFit.fill,
+        )),
+        child: Column(
+          children: [
             /// WELCOME TEXT
             Padding(
-              padding: const EdgeInsets.only(bottom: 50),
+              padding: const EdgeInsets.fromLTRB(0, 100, 0, 70),
               child: FadeAnimation(
                 delay: 1.5,
                 child: const Text(
@@ -58,15 +121,27 @@ class _HomeScreenState extends State<HomeScreen> {
             /// SIGN IN TEXT
             FadeAnimation(
               delay: 2,
-              child: Text(
-                "Signed in as: " + user.email!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400,
+              child: Container(
+                  child: Column(children: <Widget>[
+                Text(
+                  "Signed in as: ",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
+                Text(
+                  user.email!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                )
+              ])),
             ),
             const SizedBox(
               height: 10,
@@ -79,7 +154,56 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
                     },
-                    child: const Text("Log out")))
+                    child: const Text("Log out"))),
+
+            FadeAnimation(
+              delay: 2.5,
+              child: Container(
+                child: const Text(
+                  "IEŠKOTI PAVEŽĖJŲ",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.orange.shade400,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6),
+                  ),
+                ),
+                margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                width: w / 1.5,
+                height: h / 12,
+                alignment: Alignment.center,
+              ),
+            ),
+
+            FadeAnimation(
+                delay: 2.5,
+                child: Container(
+                  child: const Text(
+                    "PRIDĖTI KELIONĘ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.orange.shade400,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6),
+                    ),
+                  ),
+                  //margin: EdgeInsets.all(40.0),
+                  width: w / 1.5,
+                  height: h / 12,
+                  alignment: Alignment.center,
+                )),
           ],
         ),
       ),
