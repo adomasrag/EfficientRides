@@ -99,42 +99,40 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          /// APP BAR
+          /*/// APP BAR
           appBar: AppBar(
             title: const Text("efficientRides",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 )),
             centerTitle: true,
-          ),
+          ),*/
 
           /// Body
           body: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
               image: AssetImage("assets/efficientRides-11.jpg"),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             )),
             width: w,
             height: h,
             child: Container(
-              margin: const EdgeInsets.all(17),
+              margin: const EdgeInsets.fromLTRB(20, 90, 20, 20),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  //mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     /// LOGO IMAGE
                     FadeAnimation(
                       delay: 1,
                       child: Container(
-                        height: h / 4,
-                        width: w / 1.5,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                          image: AssetImage("assets/vw.jpg"),
-                          fit: BoxFit.cover,
-                        )),
+                        height: 100,
+                        width: 100,
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage("assets/vw.jpg"),
+                        ),
                       ),
                     ),
                     const SizedBox(
