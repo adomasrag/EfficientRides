@@ -27,9 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
-    ///
     return Scaffold(
-      /// APP BAR
       appBar: AppBar(
           title: const Text("efficientRides"),
           centerTitle: true,
@@ -42,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ]),
-
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -204,15 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-
-            /// LOG OUT BUTTON
-            FadeAnimation(
-                delay: 2.5,
-                child: ElevatedButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                    },
-                    child: const Text("Log out"))),
 
             FadeAnimation(
                 delay: 2.5,

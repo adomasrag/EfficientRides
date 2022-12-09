@@ -31,8 +31,10 @@ dependencies:
   simple_animations: ^4.0.1
   supercharged: ^2.1.1
   firebase_auth: ^3.3.16
+  cloud_firestore: ^3.3.13
   firebase_core_platform_interface: 4.5.1
   provider: ^6.0.4
+  firebase_core: ^1.24.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
