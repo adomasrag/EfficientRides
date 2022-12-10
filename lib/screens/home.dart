@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: <Widget>[
+          children: [
             SizedBox(
               height: h / 5,
               child: DrawerHeader(
@@ -59,14 +59,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         backgroundImage: AssetImage("assets/vw.jpg"),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
-                      child: Text(
-                        'Vardas Pavarde',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(25, 20, 0, 20),
+                        child: Text(
+                          'Vardas Pavarde',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -74,79 +76,84 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            ListTile(
-                leading: Icon(Icons.history),
-                title: Text('Kelionių istorija'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const TripHistoryScreen()),
-                  );
-                }),
-            ListTile(
-                leading: Icon(Icons.route),
-                title: Text('Mano maršrutai'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MyRoutesScreen()),
-                  );
-                }),
-            ListTile(
-                leading: Icon(Icons.message),
-                title: Text('Žinutės'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MessagesScreen()),
-                  );
-                }),
-            ListTile(
-                leading: Icon(Icons.rate_review),
-                title: Text('Kelionės įvertinimas'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RatingScreen()),
-                  );
-                }),
-            ListTile(
-                leading: Icon(Icons.payment),
-                title: Text('Mokėjimo informacija'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PaymentInfoScreen()),
-                  );
-                }),
-            ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Profilis'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()),
-                  );
-                }),
-            ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Nustatymai'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsScreen()),
-                  );
-                }),
+            Column(
+                children: [
+                ListTile(
+                    leading: Icon(Icons.history),
+                    title: Text('Kelionių istorija'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TripHistoryScreen()),
+                      );
+                    }),
+                ListTile(
+                    leading: Icon(Icons.route),
+                    title: Text('Mano maršrutai'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyRoutesScreen()),
+                      );
+                    }),
+                ListTile(
+                    leading: Icon(Icons.message),
+                    title: Text('Žinutės'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MessagesScreen()),
+                      );
+                    }),
+                ListTile(
+                    leading: Icon(Icons.rate_review),
+                    title: Text('Kelionės įvertinimas'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RatingScreen()),
+                      );
+                    }),
+                ListTile(
+                    leading: Icon(Icons.payment),
+                    title: Text('Mokėjimo informacija'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PaymentInfoScreen()),
+                      );
+                    }),
+                ListTile(
+                    leading: Icon(Icons.account_circle),
+                    title: Text('Profilis'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfileScreen()),
+                      );
+                    }),
+                ListTile(
+                    leading: Icon(Icons.settings),
+                    title: Text('Nustatymai'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingsScreen()),
+                      );
+                    }),
+              ],
+            ),
           ],
         ),
       ),
+
       body: Container(
         width: w,
         height: h,
