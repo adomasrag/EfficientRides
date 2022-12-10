@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //
@@ -5,8 +6,10 @@ import '../animation/fadeanimation.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback showLoginScreen;
-  const SignUpScreen({Key? key, required this.showLoginScreen})
-      : super(key: key);
+  const SignUpScreen({
+    Key? key,
+    required this.showLoginScreen,
+  }) : super(key: key);
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -17,6 +20,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
 
   /// Password =! ConfirmPassword
   var aSnackBar = const SnackBar(
@@ -53,10 +58,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     content: Text('The Email & Password fields must fill!'),
   );
 
+  /// Email is incorrect
+  var hSnackBar = const SnackBar(
+    content: Text('The email address is badly formatted'),
+  );
+
   /// All Fields Empty
   var xSnackBar = const SnackBar(
     content: Text('You must fill all fields'),
   );
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    super.dispose();
+  }
 
   /// SIGNING UP METHOD TO FIREBASE
   Future signUp() async {
@@ -64,10 +84,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _passwordController.text.isNotEmpty &
         _confirmPasswordController.text.isNotEmpty) {
       if (passwordConfirmed()) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        );
+        try {
+          /// create user
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
+
+          /// add user details
+          addUserDetails(
+            _firstNameController.text.trim(),
+            _lastNameController.text.trim(),
+            _emailController.text.trim(),
+          );
+
+          /// if firebase doesn't accept the email address
+        } on FirebaseAuthException catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(hSnackBar);
+          print(e);
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(aSnackBar);
       }
@@ -120,7 +155,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  /// CHECK IF PASSWORD CONFIREMD OR NOT
+  Future addUserDetails(String firstName, String lastName, String email) async {
+    await FirebaseFirestore.instance.collection("users").add({
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+    });
+  }
+
+  /// CHECK IF PASSWORD CONFIRMED OR NOT
   bool passwordConfirmed() {
     if (_passwordController.text.trim() ==
         _confirmPasswordController.text.trim()) {
@@ -128,14 +171,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else {
       return false;
     }
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
   }
 
   @override
@@ -171,11 +206,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  /// FLUTTER IMAGE
-                  const SizedBox(
-                    height: 100,
-                  ),
-
                   /// TOP TEXT
                   FadeAnimation(
                     delay: 1.5,
@@ -189,7 +219,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 80,
+                    height: 20,
+                  ),
+
+                  /// First name TextField
+                  FadeAnimation(
+                    delay: 2.0,
+                    child: TextField(
+                      controller: _firstNameController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'First Name',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  /// Last name TextField
+                  FadeAnimation(
+                    delay: 2.0,
+                    child: TextField(
+                      controller: _lastNameController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Last Name',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
 
                   /// Email TextField

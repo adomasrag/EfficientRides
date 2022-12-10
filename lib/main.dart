@@ -9,7 +9,7 @@ void main() async {
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
-///hgkjabhekghbasfj,hfbals,jfhbfljahrwebflj,haer
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -17,13 +17,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Flutter Log In & Sign up Authentication with FireBase",
       theme: ThemeData(
-        //brightness: Brightness.dark,
-        //colorScheme: ColorScheme.fromSwatch(
         primarySwatch: Colors.teal,
-        //),
         fontFamily: 'Verdana',
+
+        /// nieko nedaro?
       ),
       home: MainScreen(),
     );
