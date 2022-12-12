@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loginuicolors/models/userModel.dart';
 //
 import '../animation/fadeanimation.dart';
 
@@ -17,6 +18,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   /// TextFields Controller
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -92,11 +94,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
           );
 
           /// add user details
-          addUserDetails(
+          createUser(
+            firstName: _firstNameController.text.trim(),
+            lastName: _lastNameController.text.trim(),
+            email: _emailController.text.trim(),
+          );
+
+          /// REDUNDANT / old method add user details
+          /*addUserDetails(
             _firstNameController.text.trim(),
             _lastNameController.text.trim(),
             _emailController.text.trim(),
-          );
+          );*/
 
           /// if firebase doesn't accept the email address
         } on FirebaseAuthException catch (e) {
@@ -155,18 +164,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  Future addUserDetails(String firstName, String lastName, String email) async {
-    await FirebaseFirestore.instance.collection("users").add({
-      'firstName': firstName,
-      'lastName': lastName,
-      'email': email,
-    });
+  ///using User class from models
+  late UserModel _user;
+
+  Future createUser({required String firstName, required String lastName, required String email}) async {
+    final docUser = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid);
+    final json = _user.toJson();
+
+    await docUser.set(json);
   }
+
+  ///REDUNDANT / old data read method
+  /*Future addUserDetails(String firstName, String lastName, String email) async {
+    var collection = FirebaseFirestore.instance.collection('users');
+    collection
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .set({
+          'firstName': firstName,
+          'lastName': lastName,
+          'email': email,
+        })
+        .then((_) => print('Added'))
+        .catchError((error) => print('Add failed: $error'));
+  }*/
 
   /// CHECK IF PASSWORD CONFIRMED OR NOT
   bool passwordConfirmed() {
-    if (_passwordController.text.trim() ==
-        _confirmPasswordController.text.trim()) {
+    if (_passwordController.text.trim() == _confirmPasswordController.text.trim()) {
       return true;
     } else {
       return false;
@@ -303,8 +327,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   FadeAnimation(
                     delay: 3.5,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: Size(w / 1.1, h / 15)),
+                      style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, h / 15)),
                       onPressed: signUp,
                       child: const Text("Sign Up"),
                     ),
