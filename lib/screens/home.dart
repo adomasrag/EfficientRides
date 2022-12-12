@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:loginuicolors/screens/availabletrips.dart';
+import 'package:loginuicolors/screens/findtrips.dart';
+import 'package:loginuicolors/screens/addtrips.dart';
 import 'package:loginuicolors/screens/triphistory.dart';
 import 'package:loginuicolors/screens/myroutes.dart';
 import 'package:loginuicolors/screens/messages.dart';
@@ -28,18 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
     final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-          title: const Text("efficientRides"),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text('Something')));
-              },
-            ),
-          ]),
+      appBar: AppBar(title: const Text("efficientRides"), centerTitle: true, actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Something')));
+          },
+        ),
+      ]),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -77,15 +74,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Column(
-                children: [
+              children: [
                 ListTile(
                     leading: Icon(Icons.history),
                     title: Text('Kelionių istorija'),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const TripHistoryScreen()),
+                        MaterialPageRoute(builder: (context) => const TripHistoryScreen()),
                       );
                     }),
                 ListTile(
@@ -94,8 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyRoutesScreen()),
+                        MaterialPageRoute(builder: (context) => const MyRoutesScreen()),
                       );
                     }),
                 ListTile(
@@ -104,8 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const MessagesScreen()),
+                        MaterialPageRoute(builder: (context) => const MessagesScreen()),
                       );
                     }),
                 ListTile(
@@ -114,8 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const RatingScreen()),
+                        MaterialPageRoute(builder: (context) => const RatingScreen()),
                       );
                     }),
                 ListTile(
@@ -124,8 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const PaymentInfoScreen()),
+                        MaterialPageRoute(builder: (context) => const PaymentInfoScreen()),
                       );
                     }),
                 ListTile(
@@ -134,8 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProfileScreen()),
+                        MaterialPageRoute(builder: (context) => const ProfileScreen()),
                       );
                     }),
                 ListTile(
@@ -144,8 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const SettingsScreen()),
+                        MaterialPageRoute(builder: (context) => const SettingsScreen()),
                       );
                     }),
               ],
@@ -153,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-
       body: Container(
         width: w,
         height: h,
@@ -213,15 +202,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 delay: 2.5,
                 child: Container(
                   child: SizedBox(
-                    width: w / 1.5,
-                    height: h / 12,
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const AvailableTripsScreen()),
+                          MaterialPageRoute(builder: (context) => const AvailableTripsScreen()),
                         );
                       },
                       child: const Text(
@@ -241,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Radius.circular(6),
                     ),
                   ),
-                  margin: EdgeInsets.fromLTRB(0, 30, 0, 20),
+                  margin: EdgeInsets.fromLTRB(0, 30, 0, 15),
                   width: w / 1.5,
                   height: h / 12,
                   alignment: Alignment.center,
@@ -250,12 +235,22 @@ class _HomeScreenState extends State<HomeScreen> {
             FadeAnimation(
                 delay: 2.5,
                 child: Container(
-                  child: const Text(
-                    "PRIDĖTI KELIONĘ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
+                  child: SizedBox(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AddTripsScreen()),
+                        );
+                      },
+                      child: const Text(
+                        "PRIDĖTI KELIONĘ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -265,7 +260,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       Radius.circular(6),
                     ),
                   ),
-                  //margin: EdgeInsets.all(40.0),
                   width: w / 1.5,
                   height: h / 12,
                   alignment: Alignment.center,
