@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:loginuicolors/models/userModel.dart';
+//import 'package:image_picker/image_picker.dart';
+//import 'dart:io';
+//import 'package:flutter/services.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,60 +15,52 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileState extends State<ProfileScreen> {
-  final user = FirebaseAuth.instance.currentUser!;
-
-  UserModel fromJson(Map<String, dynamic> json) => UserModel(
-        firstName: json['firstName'],
-        lastName: json['lastName'],
-        email: json['email'],
-      );
-
   Future<UserModel?> readUser() async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc('QR0dLhdiqJeF9XgUMYT3QfjqUI82');
-    final snapshot = await docUser.get();
+    final snapshot = await FirebaseFirestore.instance.doc('users/' + FirebaseAuth.instance.currentUser!.uid).get();
 
-    if (snapshot.exists) {
-      return fromJson(snapshot.data()!);
-    }
+    if (snapshot.exists)
+      return UserModel.fromJson(snapshot.data()!);
+    else
+      return null;
   }
 
   Widget buildUser(UserModel user) => ListView(
         children: <Widget>[
           SizedBox(
-            height: 20,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: NetworkImage(
-                        'https://avatars0.githubusercontent.com/u/28812093?s=460&u=06471c90e03cfd8ce2855d217d157c93060da490&v=4'),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                user.firstName + ' ' + user.lastName,
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
+            height: 10,
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
             child: Column(
-              children: <Widget>[
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: CircleAvatar(
+                    radius: 50.0,
+                    child: Center(),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  user.firstName + ' ' + user.lastName,
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  color: Colors.black54,
+                  height: 10,
+                  indent: 13,
+                  endIndent: 13,
+                  thickness: 0.5,
+                ),
                 ListTile(
                   title: Text(
                     'El. pašto adresas',
@@ -82,31 +78,74 @@ class _ProfileState extends State<ProfileScreen> {
                 ),
                 ListTile(
                   title: Text(
-                    'Adresas',
+                    'Telefono numeris',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: Text(
-                    'Švenčionėlių g. 17',
+                    '+A' + user.phone.toString(),
                     style: TextStyle(
                       fontSize: 18,
                     ),
                   ),
                 ),
-                ListTile(
-                  title: Text(
-                    'Miestas',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                Divider(
+                  color: Colors.black,
+                  height: 1,
+                  indent: 13,
+                  endIndent: 13,
+                  thickness: 0.5,
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                      child: Text(
+                        'Mokėjimo informacija',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.blue.shade900,
+                        ),
+                      ),
+                      onPressed: () {
+                        //Navigator.of(context).push(PageRoute)
+                      },
                     ),
                   ),
-                  subtitle: Text(
-                    'Vilnius',
-                    style: TextStyle(
-                      fontSize: 18,
+                ),
+                Divider(
+                  color: Colors.black54,
+                  height: 1,
+                  indent: 13,
+                  endIndent: 13,
+                  thickness: 0.5,
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(15, 12, 0, 0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        // fixedSize: Size(70, 20),                           /// override button size
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        FirebaseAuth.instance.signOut();
+                      },
+                      child: Text(
+                        'Atsijungti',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -119,11 +158,6 @@ class _ProfileState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Profilis'),
-          centerTitle: true,
-          backgroundColor: Colors.teal.shade200,
-        ),
         body: FutureBuilder<UserModel?>(
             future: readUser(),
             builder: (context, snapshot) {
@@ -136,9 +170,6 @@ class _ProfileState extends State<ProfileScreen> {
                   color: Colors.redAccent.shade100,
                 ));
               }
-            })
-
-        /**/
-        );
+            }));
   }
 }

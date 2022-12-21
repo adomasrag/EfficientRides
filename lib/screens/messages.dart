@@ -18,14 +18,6 @@ class _MessagesState extends State<MessagesScreen> {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
-      return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: Container(),
-      );
-    }
+    return Scaffold();
+  }
 }
-

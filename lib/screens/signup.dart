@@ -24,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _confirmPasswordController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   /// Password =! ConfirmPassword
   var aSnackBar = const SnackBar(
@@ -77,6 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _confirmPasswordController.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -84,7 +86,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future signUp() async {
     if (_emailController.text.isNotEmpty &
         _passwordController.text.isNotEmpty &
-        _confirmPasswordController.text.isNotEmpty) {
+        _confirmPasswordController.text.isNotEmpty &
+        _phoneController.text.isNotEmpty &
+        _firstNameController.text.isNotEmpty &
+        _lastNameController.text.isNotEmpty) {
       if (passwordConfirmed()) {
         try {
           /// create user
@@ -94,18 +99,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           );
 
           /// add user details
-          createUser(
-            firstName: _firstNameController.text.trim(),
-            lastName: _lastNameController.text.trim(),
-            email: _emailController.text.trim(),
-          );
-
-          /// REDUNDANT / old method add user details
-          /*addUserDetails(
+          addUserDetails(
             _firstNameController.text.trim(),
             _lastNameController.text.trim(),
             _emailController.text.trim(),
-          );*/
+            int.parse(_phoneController.text.trim()),
+          );
 
           /// if firebase doesn't accept the email address
         } on FirebaseAuthException catch (e) {
@@ -165,28 +164,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   ///using User class from models
-  late UserModel _user;
-
-  Future createUser({required String firstName, required String lastName, required String email}) async {
+  Future addUserDetails(String firstName, String lastName, String email, int phone) async {
     final docUser = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid);
-    final json = _user.toJson();
-
+    final json = UserModel(
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      id: FirebaseAuth.instance.currentUser!.uid,
+      profileImage: "",
+      phone: phone,
+    ).toJson();
     await docUser.set(json);
   }
-
-  ///REDUNDANT / old data read method
-  /*Future addUserDetails(String firstName, String lastName, String email) async {
-    var collection = FirebaseFirestore.instance.collection('users');
-    collection
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .set({
-          'firstName': firstName,
-          'lastName': lastName,
-          'email': email,
-        })
-        .then((_) => print('Added'))
-        .catchError((error) => print('Add failed: $error'));
-  }*/
 
   /// CHECK IF PASSWORD CONFIRMED OR NOT
   bool passwordConfirmed() {
@@ -284,6 +273,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Email',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+
+                  /// phone number TextField
+                  FadeAnimation(
+                    delay: 2.0,
+                    child: TextField(
+                      controller: _phoneController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Phone number',
                       ),
                     ),
                   ),

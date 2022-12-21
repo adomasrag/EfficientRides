@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +9,30 @@ import '../animation/fadeanimation.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback showSignUpScreen;
-  const LoginScreen({Key? key, required this.showSignUpScreen})
-      : super(key: key);
+  const LoginScreen({Key? key, required this.showSignUpScreen}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  Color _color = Colors.teal.shade900;
+  bool _clickedClickme = false;
+
+  Color? _updateState() {
+    setState(() {
+      if (_clickedClickme) {
+        _color = Colors.grey.shade800;
+
+        Timer(Duration(seconds: 3), () {
+          _color = Colors.teal.shade900;
+          _clickedClickme = !_clickedClickme;
+          _updateState();
+        });
+      }
+    });
+  }
+
   /// TextFields Controller
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -37,24 +55,35 @@ class _LoginScreenState extends State<LoginScreen> {
   /// SIGNIN METHOD TO FIREBASE
   Future signIn() async {
     try {
-      /// In the below, with if statement we have some simple validate
-      if (_emailController.text.isNotEmpty &
-          _passwordController.text.isNotEmpty) {
+      if (_emailController.text.isNotEmpty & _passwordController.text.isNotEmpty) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        );
+
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-      } else if (_emailController.text.isNotEmpty &
-          _passwordController.text.isEmpty) {
+
+        Navigator.of(context).pop();
+      } else if (_emailController.text.isNotEmpty & _passwordController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(sSnackBar);
-      } else if (_emailController.text.isEmpty &
-          _passwordController.text.isNotEmpty) {
+        Navigator.of(context).pop();
+      } else if (_emailController.text.isEmpty & _passwordController.text.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(tSnackBar);
-      } else if (_emailController.text.isEmpty &
-          _passwordController.text.isEmpty) {
+        Navigator.of(context).pop();
+      } else if (_emailController.text.isEmpty & _passwordController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(fSnackBar);
+        Navigator.of(context).pop();
       }
     } catch (e) {
+      Navigator.of(context).pop();
+
       /// Showing Error with AlertDialog if the user enter the wrong Email and Password
       showDialog<void>(
         context: context,
@@ -63,8 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
           return AlertDialog(
             title: const Text('Error Happened'),
             content: const SingleChildScrollView(
-              child: Text(
-                  "The Email or Password that you entered is not valid, try again."),
+              child: Text("The Email or Password that you entered is not valid, try again."),
             ),
             actions: <Widget>[
               TextButton(
@@ -194,8 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         GestureDetector(
                             onTap: () => Navigator.of(context).push(
                                   CupertinoPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPasswordScreen(),
+                                    builder: (context) => const ForgotPasswordScreen(),
                                   ),
                                 ),
                             child: FadeAnimation(
@@ -218,15 +245,47 @@ class _LoginScreenState extends State<LoginScreen> {
                     /// LOG IN BUTTON
                     FadeAnimation(
                       delay: 3.5,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: Size(w / 1.1, h / 15)),
-                        onPressed: signIn,
-                        child: const Text("Log In"),
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, h / 15)),
+                          onPressed: signIn,
+                          child: const Text("Log In"),
+                        ),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
+                    ),
+
+                    AnimatedContainer(
+                      margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      duration: Duration(milliseconds: 200),
+                      width: w / 1.5,
+                      height: h / 12,
+                      child: Center(
+                        child: SizedBox(
+                          child: TextButton(
+                            onPressed: () {
+                              _clickedClickme = true;
+                              _updateState();
+                            },
+                            child: Text(
+                              "click me",
+                              style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+                            ),
+                          ),
+                          width: w / 1.5,
+                          height: h / 12,
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: _color,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(6),
+                        ),
+                      ),
                     ),
 
                     /// REGISTER TEXT
