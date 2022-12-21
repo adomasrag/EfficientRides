@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.teal,
-        fontFamily: 'Verdana',
-
-        /// nieko nedaro?
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.teal.shade900,
+        ),
+        fontFamily: 'Raleway',
       ),
       home: MainScreen(),
     );
