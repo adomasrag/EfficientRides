@@ -18,6 +18,8 @@ class _MessagesState extends State<MessagesScreen> {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
 
-    return Scaffold();
+    return Scaffold(
+      body: SafeArea(child: Container(child: Text('Zinutes'))),
+    );
   }
 }

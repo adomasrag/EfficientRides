@@ -199,19 +199,19 @@ class _HomeScreenState extends State<HomeScreen> {
           items: [
             BottomNavigationBarItem(
               icon: new Icon(Icons.home),
-              label: ('Page1'),
+              label: ('Pagrindinis'),
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.route_outlined),
-              label: ('Page2'),
+              label: ('Kelionės'),
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.messenger_outlined),
-              label: ('Page3'),
+              label: ('Žinutės'),
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.person),
-              label: ('Page3'),
+              label: ('Profilis'),
             ),
           ],
           type: BottomNavigationBarType.fixed,
