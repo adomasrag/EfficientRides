@@ -26,87 +26,90 @@ class _NamaiState extends State<NamaiScreen> {
 
   @override
   Widget buildHeader(UserModel user, double w, double h) => Scaffold(
-        body: Container(
-          width: w,
-          height: h,
-          decoration: const BoxDecoration(
-            color: Colors.black87,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              FadeAnimation(
-                  delay: 2.5,
-                  child: Container(
-                    child: SizedBox(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AvailableTripsScreen()),
-                          );
-                        },
-                        child: const Text(
-                          "IEŠKOTI PAVEŽĖJŲ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
+        backgroundColor: Colors.black87,
+        body: SafeArea(
+          child: Container(
+            width: w,
+            height: h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          side: BorderSide(color: Colors.white),
+                          fixedSize: Size(150, 50),
+                        ),
+                        //controller: _firstNameController,
+                        child: Text('Filtruoti', style: TextStyle(color: Colors.white)),
+                        onPressed: () {},
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: Colors.teal.shade500,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(6),
+                          ),
+                        ),
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddTripsScreen()));
+                            },
+                            icon: Icon(Icons.add),
                           ),
                         ),
                       ),
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.orange.shade400,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6),
-                      ),
-                    ),
-                    margin: EdgeInsets.fromLTRB(0, 30, 0, 15),
-                    width: w / 1.5,
-                    height: h / 12,
-                    alignment: Alignment.center,
-                  )),
-              FadeAnimation(
-                  delay: 2.5,
-                  child: Container(
-                    child: SizedBox(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AddTripsScreen()),
-                          );
-                        },
-                        child: const Text(
-                          "PRIDĖTI KELIONĘ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
+                    ],
+                  ),
+                ),
+                FadeAnimation(
+                    delay: 2.5,
+                    child: Container(
+                      child: SizedBox(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AvailableTripsScreen()),
+                            );
+                          },
+                          child: const Text(
+                            "IEŠKOTI PAVEŽĖJŲ",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: Colors.orange.shade400,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(6),
+                        ),
+                      ),
+                      margin: EdgeInsets.fromLTRB(0, 30, 0, 15),
                       width: w / 1.5,
                       height: h / 12,
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.orange.shade400,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6),
-                      ),
-                    ),
-                    width: w / 1.5,
-                    height: h / 12,
-                    alignment: Alignment.center,
-                  )),
-            ],
+                      alignment: Alignment.center,
+                    )),
+              ],
+            ),
           ),
         ),
       );
@@ -115,13 +118,16 @@ class _NamaiState extends State<NamaiScreen> {
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
+    print('Namukas build');
 
-    return Scaffold(
-        body: FutureBuilder<UserModel?>(
-            future: readUser(),
-            builder: (context, snapshot) {
-              final user = snapshot.data;
-              return user == null ? Center(child: Text('User error')) : buildHeader(user, w, h);
-            }));
+    return SafeArea(
+      child: Scaffold(
+          body: FutureBuilder<UserModel?>(
+              future: readUser(),
+              builder: (context, snapshot) {
+                final user = snapshot.data;
+                return user == null ? Center(child: Text('User error')) : buildHeader(user, w, h);
+              })),
+    );
   }
 }

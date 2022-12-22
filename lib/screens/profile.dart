@@ -49,13 +49,14 @@ class _ProfileState extends State<ProfileScreen> {
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Divider(
-                  color: Colors.black54,
+                  color: Colors.white,
                   height: 10,
                   indent: 13,
                   endIndent: 13,
@@ -65,14 +66,16 @@ class _ProfileState extends State<ProfileScreen> {
                   title: Text(
                     'El. pašto adresas',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   subtitle: Text(
                     user.email,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
+                      color: Colors.white70,
                     ),
                   ),
                 ),
@@ -80,19 +83,24 @@ class _ProfileState extends State<ProfileScreen> {
                   title: Text(
                     'Telefono numeris',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   subtitle: Text(
                     '+A' + user.phone.toString(),
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
+                      color: Colors.white70,
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Divider(
-                  color: Colors.black,
+                  color: Colors.white,
                   height: 1,
                   indent: 13,
                   endIndent: 13,
@@ -106,25 +114,26 @@ class _ProfileState extends State<ProfileScreen> {
                       child: Text(
                         'Mokėjimo informacija',
                         style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.blue.shade900,
+                          fontSize: 16,
+                          color: Colors.orange.shade500,
                         ),
                       ),
                       onPressed: () {
-                        //Navigator.of(context).push(PageRoute)
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) => MokejimoInformacija('Tab1')));
                       },
                     ),
                   ),
                 ),
                 Divider(
-                  color: Colors.black54,
+                  color: Colors.white,
                   height: 1,
                   indent: 13,
                   endIndent: 13,
                   thickness: 0.5,
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(15, 12, 0, 0),
+                  margin: EdgeInsets.fromLTRB(18, 12, 0, 0),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: TextButton(
@@ -157,19 +166,44 @@ class _ProfileState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('pRofile build');
+    return SafeArea(
+        child: Scaffold(
+            backgroundColor: Colors.black87,
+            body: FutureBuilder<UserModel?>(
+                future: readUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final user = snapshot.data;
+                    return user == null ? Center(child: Text('No User')) : buildUser(user);
+                  } else {
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.redAccent.shade100,
+                    ));
+                  }
+                })));
+  }
+}
+
+class MokejimoInformacija extends StatelessWidget {
+  final String inTab;
+
+  const MokejimoInformacija(this.inTab);
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<UserModel?>(
-            future: readUser(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final user = snapshot.data;
-                return user == null ? Center(child: Text('No User')) : buildUser(user);
-              } else {
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.redAccent.shade100,
-                ));
-              }
-            }));
+      appBar: AppBar(title: Text('Mokejimo informacia')),
+      body: Container(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('in $inTab Mokejimo informacia'),
+          ],
+        ),
+      ),
+    );
   }
 }
