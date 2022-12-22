@@ -7,7 +7,9 @@ void main() async {
   /// initialize FireBase App
   WidgetsFlutterBinding();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    new MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.teal.shade900,
+          primary: Colors.teal.shade500,
         ),
         fontFamily: 'Raleway',
       ),

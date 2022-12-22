@@ -127,196 +127,172 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          /*/// APP BAR
-          appBar: AppBar(
-            title: const Text("efficientRides",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
-            centerTitle: true,
-          ),*/
-
-          /// Body
+          backgroundColor: Colors.black87,
           body: Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage("assets/efficientRides-11.jpg"),
-              fit: BoxFit.fill,
-            )),
             width: w,
             height: h,
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(20, 90, 20, 20),
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    /// LOGO IMAGE
-                    FadeAnimation(
-                      delay: 1,
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage("assets/vw.jpg"),
-                        ),
+            margin: const EdgeInsets.fromLTRB(20, 90, 20, 20),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  /// LOGO IMAGE
+                  FadeAnimation(
+                    delay: 1,
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage("assets/vw.jpg"),
                       ),
                     ),
-                    const SizedBox(
-                      height: 45,
-                    ),
+                  ),
+                  const SizedBox(
+                    height: 45,
+                  ),
 
-                    /// TOP TEXT
-                    FadeAnimation(
-                      delay: 1.5,
-                      child: const Text(
-                        "Prašome prisijungti! :)",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
+                  /// TOP TEXT
+                  FadeAnimation(
+                    delay: 1.5,
+                    child: const Text(
+                      "Welcome!",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32,
                       ),
                     ),
-                    const SizedBox(
-                      height: 35,
-                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
 
-                    /// Email TextField
-                    FadeAnimation(
-                      delay: 2.0,
-                      child: TextField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Email',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-
-                    /// Password TextField
-                    FadeAnimation(
-                      delay: 2.5,
-                      child: TextField(
-                        obscureText: true,
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Password',
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: 15,
-                    ),
-
-                    /// Forgot Password TEXT
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                  CupertinoPageRoute(
-                                    builder: (context) => const ForgotPasswordScreen(),
-                                  ),
-                                ),
-                            child: FadeAnimation(
-                              delay: 3,
-                              child: const Text(
-                                "Forgot Password?",
-                                style: TextStyle(
-                                  color: Color.fromRGBO(15, 114, 195, 1),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                  FadeAnimation(
+                    delay: 2.0,
+                    child: Container(
+                      height: 160,
+                      child: Form(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        child: ListView(
+                          children: [
+                            TextFormField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: const OutlineInputBorder(),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.white),
                                 ),
                               ),
-                            )),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-
-                    /// LOG IN BUTTON
-                    FadeAnimation(
-                      delay: 3.5,
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, h / 15)),
-                          onPressed: signIn,
-                          child: const Text("Log In"),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    AnimatedContainer(
-                      margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                      duration: Duration(milliseconds: 200),
-                      width: w / 1.5,
-                      height: h / 12,
-                      child: Center(
-                        child: SizedBox(
-                          child: TextButton(
-                            onPressed: () {
-                              _clickedClickme = true;
-                              _updateState();
-                            },
-                            child: Text(
-                              "click me",
-                              style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                              validator: (String? value) {
+                                if (value == null || value == '') {
+                                  return 'Enter email';
+                                }
+                                return null;
+                              },
                             ),
-                          ),
-                          width: w / 1.5,
-                          height: h / 12,
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: _color,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(6),
-                        ),
-                      ),
-                    ),
-
-                    /// REGISTER TEXT
-                    GestureDetector(
-                      onTap: widget.showSignUpScreen,
-                      child: FadeAnimation(
-                        delay: 4,
-                        child: RichText(
-                          text: TextSpan(
-                              text: "Don't have an account?",
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            TextFormField(
+                              obscureText: true,
+                              controller: _passwordController,
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: const OutlineInputBorder(),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.white),
+                                ),
                               ),
-                              children: [
-                                TextSpan(
-                                    text: " Register",
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(15, 114, 195, 1),
-                                      fontWeight: FontWeight.bold,
-                                    ))
-                              ]),
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                  ),
+
+                  SizedBox(
+                    height: 5,
+                  ),
+
+                  /// Forgot Password TEXT
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                                CupertinoPageRoute(
+                                  builder: (context) => const ForgotPasswordScreen(),
+                                ),
+                              ),
+                          child: FadeAnimation(
+                            delay: 3,
+                            child: const Text(
+                              "Forgot Password?",
+                              style: TextStyle(
+                                color: Color.fromRGBO(15, 114, 195, 1),
+                                fontSize: 14,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+
+                  /// LOG IN BUTTON
+                  FadeAnimation(
+                    delay: 3.5,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, h / 15)),
+                        onPressed: signIn,
+                        child: const Text("Log In"),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  /// REGISTER TEXT
+                  GestureDetector(
+                    onTap: widget.showSignUpScreen,
+                    child: FadeAnimation(
+                      delay: 4,
+                      child: RichText(
+                        text: TextSpan(
+                            text: "Don't have an account?",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: " Sign up.",
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(15, 114, 195, 1),
+                                    fontWeight: FontWeight.bold,
+                                  ))
+                            ]),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
               ),
             ),
           ),
