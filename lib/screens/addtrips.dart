@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,9 @@ class _AddTripsState extends State<AddTripsScreen> {
           _dateInputController.text,
         );
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Kelionė pridėta')));
+        Timer(Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
 
         /// if firebase doesn't accept the details
       } catch (error) {
@@ -71,33 +76,27 @@ class _AddTripsState extends State<AddTripsScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Pridėti kelionę"),
-          centerTitle: true,
-        ),
-
-        /// Body
-        body: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/efficientRides-11.jpg"),
-            fit: BoxFit.fill,
-          )),
-          width: w,
-          height: h,
+        backgroundColor: Colors.black87,
+        body: SafeArea(
           child: Container(
-            margin: const EdgeInsets.all(17),
+            margin: const EdgeInsets.fromLTRB(30, 40, 30, 20),
+            width: w,
+            height: h,
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   /// From TextField
-                  TextField(
+                  TextFormField(
                     controller: _FromController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Pradžios taškas',
+                    decoration: InputDecoration(
+                      labelText: 'From',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                      ),
                     ),
                   ),
 
@@ -106,11 +105,15 @@ class _AddTripsState extends State<AddTripsScreen> {
                   ),
 
                   /// To TextField
-                  TextField(
+                  TextFormField(
                     controller: _ToController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Kelionės tikslas',
+                    decoration: InputDecoration(
+                      labelText: 'To',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -118,11 +121,15 @@ class _AddTripsState extends State<AddTripsScreen> {
                   ),
 
                   /// Free Seats TextField
-                  TextField(
+                  TextFormField(
                     controller: _FreeSeatsController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Laisvų vietų',
+                    decoration: InputDecoration(
+                      labelText: 'Available seats',
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -130,9 +137,20 @@ class _AddTripsState extends State<AddTripsScreen> {
                   ),
 
                   /// Date TextField
-                  TextField(
+                  TextFormField(
                     controller: _dateInputController,
-                    decoration: InputDecoration(icon: Icon(Icons.calendar_today), labelText: "Enter Date"),
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.calendar_today,
+                        color: Colors.white,
+                      ),
+                      labelText: "Enter Date",
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                      ),
+                    ),
                     readOnly: true,
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(

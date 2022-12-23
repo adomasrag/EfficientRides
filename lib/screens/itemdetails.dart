@@ -1,8 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'edit_item.dart';
 
 class ItemDetails extends StatelessWidget {
+  void _ifOwner() async {
+    _futureData;
+
+    if (FirebaseAuth.instance.currentUser!.uid == data['driverId']) {
+      print("mano");
+    }
+  }
+
   ItemDetails(this.itemId, {Key? key}) : super(key: key) {
     _reference = FirebaseFirestore.instance.collection('rides').doc(itemId);
     _futureData = _reference.get();
@@ -15,7 +24,7 @@ class ItemDetails extends StatelessWidget {
   late Map data;
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildTrip(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Kelionės informacija'),
@@ -68,6 +77,17 @@ class ItemDetails extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         },
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _ifOwner();
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      body: SafeArea(child: Builder(builder: (context) {
+        return buildTrip(context);
+      })),
     );
   }
 }
