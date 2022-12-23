@@ -30,36 +30,29 @@ class _AvailableTripsState extends State<AvailableTripsScreen> {
     final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Ieškoti pavežėjų"),
-        centerTitle: true,
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _streamRides,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('An error has occured. ${snapshot.error}'));
-          }
-          if (snapshot.connectionState == ConnectionState.active) {
-            QuerySnapshot querySnapshot = snapshot.data;
-            List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+      body: SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: _streamRides,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text('An error has occured. ${snapshot.error}'));
+            }
+            if (snapshot.connectionState == ConnectionState.active) {
+              QuerySnapshot querySnapshot = snapshot.data;
+              List<QueryDocumentSnapshot> documents = querySnapshot.docs;
 
-            return ListView.builder(
-                itemCount: documents.length,
-                itemBuilder: (context, index) {
-                  QueryDocumentSnapshot document = documents[index];
+              return ListView.builder(
+                  itemCount: documents.length,
+                  itemBuilder: (context, index) {
+                    QueryDocumentSnapshot document = documents[index];
 
-                  return ShoppingListItem(document: document);
-                });
-          }
-          return Center(child: CircularProgressIndicator());
-        },
+                    return ShoppingListItem(document: document);
+                  });
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
@@ -85,8 +78,8 @@ class _ShoppingListItemState extends State<ShoppingListItem> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemDetails(widget.document.id)));
       },
-      title: Text(widget.document['from']),
-      subtitle: Text(widget.document['to']),
+      title: Text(widget.document['from'] + ' - ' + widget.document['to']),
+      subtitle: Text(widget.document['driverId']),
       trailing: Checkbox(
         onChanged: (value) {
           setState(() {

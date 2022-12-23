@@ -188,184 +188,217 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    /// CURRENT WIDTH AND HEIGHT
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
-
-    ///
+    print(h);
+    print(w);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        /// APP BAR
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text("efficientRides"),
-          centerTitle: true,
-        ),
-
-        /// Body
-        body: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/efficientRides-11.jpg"),
-            fit: BoxFit.cover,
-          )),
-          width: w,
-          height: h,
+        backgroundColor: Colors.black87,
+        body: SafeArea(
           child: Container(
-            margin: const EdgeInsets.all(17),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  /// TOP TEXT
-                  FadeAnimation(
-                    delay: 1.5,
-                    child: const Text(
-                      "Kviečiame prisiregistruoti!",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  /// First name TextField
-                  FadeAnimation(
-                    delay: 2.0,
-                    child: TextField(
-                      controller: _firstNameController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'First Name',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  /// Last name TextField
-                  FadeAnimation(
-                    delay: 2.0,
-                    child: TextField(
-                      controller: _lastNameController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Last Name',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  /// Email TextField
-                  FadeAnimation(
-                    delay: 2.0,
-                    child: TextField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Email',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  /// phone number TextField
-                  FadeAnimation(
-                    delay: 2.0,
-                    child: TextField(
-                      controller: _phoneController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Phone number',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  /// Password TextField
-                  FadeAnimation(
-                    delay: 2.5,
-                    child: TextField(
-                      obscureText: true,
-                      controller: _passwordController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Password',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-
-                  /// Confrim Password TextField
-                  FadeAnimation(
-                    delay: 3,
-                    child: TextField(
-                      obscureText: true,
-                      controller: _confirmPasswordController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Confirm Password',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  /// SIGN UP BUTTON
-                  FadeAnimation(
-                    delay: 3.5,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, h / 15)),
-                      onPressed: signUp,
-                      child: const Text("Sign Up"),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  /// LOGIN TEXT
-                  GestureDetector(
-                    onTap: widget.showLoginScreen,
-                    child: FadeAnimation(
-                      delay: 4,
-                      child: RichText(
-                        text: TextSpan(
-                            text: "Have an account?",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
+            margin: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                //Body Container
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
+                    child: Form(
+                        child: Column(
+                      children: [
+                        FadeAnimation(
+                          delay: 1.5,
+                          child: Container(
+                            width: w / 1.2,
+                            child: const Text(
+                              "Sign up to see our current offered trips.",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
                             ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Divider(
+                          color: Colors.grey.shade800,
+                          //thickness: 1,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        FadeAnimation(
+                          delay: 2.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              TextSpan(
-                                  text: " Log in",
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(15, 114, 195, 1),
-                                    fontWeight: FontWeight.bold,
-                                  ))
-                            ]),
-                      ),
+                              Flexible(
+                                child: TextFormField(
+                                  controller: _firstNameController,
+                                  decoration: InputDecoration(
+                                    labelText: 'First Name',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    border: const OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Flexible(
+                                child: TextFormField(
+                                  controller: _lastNameController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Last Name',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    border: const OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        FadeAnimation(
+                          delay: 2.0,
+                          child: TextFormField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              labelStyle: TextStyle(color: Colors.white),
+                              border: const OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        FadeAnimation(
+                          delay: 2.0,
+                          child: TextFormField(
+                            controller: _phoneController,
+                            decoration: InputDecoration(
+                              labelText: 'Phone Number',
+                              labelStyle: TextStyle(color: Colors.white),
+                              border: const OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        FadeAnimation(
+                          delay: 2.5,
+                          child: TextFormField(
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              labelStyle: TextStyle(color: Colors.white),
+                              border: const OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        FadeAnimation(
+                          delay: 3,
+                          child: TextFormField(
+                            controller: _confirmPasswordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              labelText: 'Confirm Password',
+                              labelStyle: TextStyle(color: Colors.white),
+                              border: const OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+
+                        /// SIGN UP BUTTON
+                        FadeAnimation(
+                          delay: 3.5,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, 47)),
+                            onPressed: signUp,
+                            child: const Text("Sign Up"),
+                          ),
+                        ),
+                      ],
+                    )),
+                  ),
+                ),
+
+                //Footer Container
+                //Here you will get unexpected behaviour when keyboard pops-up.
+                //So its better to use `bottomNavigationBar` to avoid this.
+
+                Container(
+                  color: Colors.transparent,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Divider(
+                          color: Colors.grey.shade800,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        GestureDetector(
+                          onTap: widget.showLoginScreen,
+                          child: RichText(
+                            text: TextSpan(
+                                text: "Have an account?",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: " Log in.",
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(15, 114, 195, 1),
+                                        fontWeight: FontWeight.bold,
+                                      ))
+                                ]),
+                          ),
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.snapsid.loginuicolors">
    <application
-        android:label="loginuicolors"
+        android:label="efficientRides"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

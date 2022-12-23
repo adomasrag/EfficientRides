@@ -167,22 +167,25 @@ class _ProfileState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     print('pRofile build');
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: Colors.black87,
-            body: FutureBuilder<UserModel?>(
-                future: readUser(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final user = snapshot.data;
-                    return user == null ? Center(child: Text('No User')) : buildUser(user);
-                  } else {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: Colors.redAccent.shade100,
-                    ));
-                  }
-                })));
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      body: SafeArea(
+        child: FutureBuilder<UserModel?>(
+          future: readUser(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final user = snapshot.data;
+              return user == null ? Center(child: Text('No User')) : buildUser(user);
+            } else {
+              return Center(
+                  child: CircularProgressIndicator(
+                color: Colors.redAccent.shade100,
+              ));
+            }
+          },
+        ),
+      ),
+    );
   }
 }
 

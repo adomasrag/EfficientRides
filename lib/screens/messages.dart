@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loginuicolors/screens/rating.dart';
 //
 import '../animation/fadeanimation.dart';
 
@@ -19,7 +20,33 @@ class _MessagesState extends State<MessagesScreen> {
     final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SafeArea(child: Container(child: Text('Zinutes'))),
+      backgroundColor: Colors.black87,
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(30, 30, 30, 20),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Your messages',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Divider(
+                height: 10,
+                color: Colors.grey.shade800,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
