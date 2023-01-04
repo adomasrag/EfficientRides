@@ -43,17 +43,17 @@ class _AddTripsState extends State<AddTripsScreen> {
           int.parse(_FreeSeatsController.text.trim()),
           _dateInputController.text,
         );
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Kelionė pridėta')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Trip added')));
         Timer(Duration(seconds: 2), () {
           Navigator.of(context).pop();
         });
 
         /// if firebase doesn't accept the details
       } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Nepavyko pridėti kelionės $error')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to add a trip $error')));
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Neužpildyti visi laukeliai')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Not all fields are filled')));
     }
   }
 
@@ -98,6 +98,9 @@ class _AddTripsState extends State<AddTripsScreen> {
                         borderSide: const BorderSide(color: Colors.white),
                       ),
                     ),
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
 
                   const SizedBox(
@@ -115,6 +118,9 @@ class _AddTripsState extends State<AddTripsScreen> {
                         borderSide: const BorderSide(color: Colors.white),
                       ),
                     ),
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(
                     height: 15,
@@ -130,6 +136,9 @@ class _AddTripsState extends State<AddTripsScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.white),
                       ),
+                    ),
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(
@@ -150,6 +159,9 @@ class _AddTripsState extends State<AddTripsScreen> {
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.white),
                       ),
+                    ),
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
                     readOnly: true,
                     onTap: () async {
@@ -176,7 +188,7 @@ class _AddTripsState extends State<AddTripsScreen> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, h / 15)),
                     onPressed: addTrip,
-                    child: const Text("Pridėti"),
+                    child: const Text("Add this trip"),
                   ),
                 ],
               ),

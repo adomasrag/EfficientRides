@@ -30,6 +30,7 @@ class _AvailableTripsState extends State<AvailableTripsScreen> {
     final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: Colors.black87,
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
           stream: _streamRides,
@@ -45,6 +46,7 @@ class _AvailableTripsState extends State<AvailableTripsScreen> {
                   itemCount: documents.length,
                   itemBuilder: (context, index) {
                     QueryDocumentSnapshot document = documents[index];
+
 
                     return ShoppingListItem(document: document);
                   });
@@ -78,15 +80,26 @@ class _ShoppingListItemState extends State<ShoppingListItem> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemDetails(widget.document.id)));
       },
-      title: Text(widget.document['from'] + ' - ' + widget.document['to']),
-      subtitle: Text(widget.document['driverId']),
-      trailing: Checkbox(
-        onChanged: (value) {
-          setState(() {
-            _purchased = value ?? false;
-          });
-        },
-        value: _purchased,
+      title: Text(widget.document['from'] + ' - ' + widget.document['to'],
+      style: TextStyle(
+        color: Colors.white
+      ),),
+      subtitle: Text(widget.document['driverId'],style: TextStyle(
+          color: Colors.white
+      ),),
+      trailing:
+      Theme(
+        data: Theme.of(context).copyWith(
+          unselectedWidgetColor: Colors.white,
+        ),
+        child: Checkbox(
+          onChanged: (value) {
+            setState(() {
+              _purchased = value ?? false;
+            });
+          },
+          value: _purchased,
+        ),
       ),
     );
   }

@@ -90,21 +90,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Column(
-                      //mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        const SizedBox(
+                          height: 65,
+                        ),
                         /// LOGO IMAGE
                         FadeAnimation(
                           delay: 1,
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            child: CircleAvatar(
-                              backgroundImage: AssetImage("assets/vw.jpg"),
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              height: 150,
+                              width: 250,
+                              child: Text("efficientRides",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 36,
+                                fontWeight: FontWeight.w400
+                              ),)
                             ),
                           ),
                         ),
                         const SizedBox(
-                          height: 45,
+                          height: 15,
                         ),
 
                         /// TOP TEXT
@@ -115,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 32,
+                              fontSize: 26,
                             ),
                           ),
                         ),

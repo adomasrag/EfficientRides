@@ -58,7 +58,7 @@ class _NamaiState extends State<NamaiScreen> {
                             side: BorderSide(color: Colors.white),
                             fixedSize: Size(150, 50),
                           ),
-                          child: Text('Filtruoti', style: TextStyle(color: Colors.white)),
+                          child: Text('Filter', style: TextStyle(color: Colors.white)),
                           onPressed: () {},
                         ),
                       ),
@@ -99,7 +99,7 @@ class _NamaiState extends State<NamaiScreen> {
                           );
                         },
                         child: const Text(
-                          "IEŠKOTI PAVEŽĖJŲ",
+                          "Find a ride",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,

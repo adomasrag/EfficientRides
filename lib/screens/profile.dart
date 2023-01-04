@@ -64,7 +64,7 @@ class _ProfileState extends State<ProfileScreen> {
                 ),
                 ListTile(
                   title: Text(
-                    'El. pašto adresas',
+                    'Email',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class _ProfileState extends State<ProfileScreen> {
                 ),
                 ListTile(
                   title: Text(
-                    'Telefono numeris',
+                    'Phone Number',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -112,7 +112,7 @@ class _ProfileState extends State<ProfileScreen> {
                     alignment: Alignment.topLeft,
                     child: TextButton(
                       child: Text(
-                        'Mokėjimo informacija',
+                        'Payment Settings',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.orange.shade500,
@@ -148,7 +148,7 @@ class _ProfileState extends State<ProfileScreen> {
                         FirebaseAuth.instance.signOut();
                       },
                       child: Text(
-                        'Atsijungti',
+                        'Log out',
                         style: TextStyle(
                           color: Colors.red,
                           fontSize: 16,

@@ -1,12 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:loginuicolors/firebase_options.dart';
 //
 import 'auth/main_page.dart';
 
 void main() async {
   /// initialize FireBase App
   WidgetsFlutterBinding();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     new MyApp(),
   );

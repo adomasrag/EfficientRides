@@ -29,20 +29,20 @@ class ItemDetails extends StatelessWidget {
       appBar: AppBar(
         title: Text('Kelionės informacija'),
         actions: [
-          IconButton(
-              onPressed: () {
-                //add the id to the map
-                data['id'] = itemId;
-
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditItem(data)));
-              },
-              icon: Icon(Icons.edit)),
-          IconButton(
-              onPressed: () {
-                //Delete the item
-                _reference.delete();
-              },
-              icon: Icon(Icons.delete))
+          // IconButton(
+          //     onPressed: () {
+          //       //add the id to the map
+          //       data['id'] = itemId;
+          //
+          //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditItem(data)));
+          //     },
+          //     icon: Icon(Icons.edit)),
+          // IconButton(
+          //     onPressed: () {
+          //       //Delete the item
+          //       _reference.delete();
+          //     },
+          //     icon: Icon(Icons.delete))
         ],
       ),
       body: FutureBuilder<DocumentSnapshot>(

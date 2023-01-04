@@ -17,25 +17,25 @@ class HomeScreen extends StatelessWidget {
       tabs: [
         GButtonItem(
           icon: Icons.home,
-          text: 'Pagrindinis',
+          text: 'Home',
           tab: NamaiScreen(),
           navigatorkey: _tab1navigatorKey,
         ),
         GButtonItem(
           icon: Icons.route_outlined,
-          text: 'Kelionės',
+          text: 'Rides',
           tab: TripHistoryScreen(),
           navigatorkey: _tab2navigatorKey,
         ),
         GButtonItem(
           icon: Icons.message_outlined,
-          text: 'Žinutės',
+          text: 'Messages',
           tab: MessagesScreen(),
           navigatorkey: _tab3navigatorKey,
         ),
         GButtonItem(
           icon: Icons.person,
-          text: 'Profilis',
+          text: 'Profile',
           tab: ProfileScreen(),
           navigatorkey: _tab4navigatorKey,
         ),
