@@ -48,17 +48,41 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     );
 
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    )
-        .then((result) {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      )
+          .then((result) {
+        Navigator.of(context).pop();
+      });
+    } on FirebaseAuthException catch (e) {
+      String getMessageFromErrorCode;
+      switch (e.code) {
+        case "wrong-password":
+          getMessageFromErrorCode = "Wrong email/password combination.";
+          break;
+        case "user-not-found":
+          getMessageFromErrorCode = "No user found with this email.";
+          break;
+        case "user-disabled":
+          getMessageFromErrorCode = "User disabled.";
+          break;
+        case "operation-not-allowed":
+          getMessageFromErrorCode = "Server error, please try again later.";
+          break;
+        case "invalid-email":
+          getMessageFromErrorCode = "Email address is invalid.";
+          break;
+        default:
+          getMessageFromErrorCode = "Login failed. Please try again.";
+          break;
+      }
       Navigator.of(context).pop();
-    }).catchError((e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No such user")));
-      Navigator.of(context).pop();
-    });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(getMessageFromErrorCode)));
+      print(e.code);
+    }
   }
 
   @override
@@ -94,21 +118,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 65,
                         ),
+
                         /// LOGO IMAGE
                         FadeAnimation(
                           delay: 1,
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Container(
-                              height: 150,
-                              width: 250,
-                              child: Text("efficientRides",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 36,
-                                fontWeight: FontWeight.w400
-                              ),)
-                            ),
+                                height: 150,
+                                width: 250,
+                                child: Text(
+                                  "efficientRides",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w400),
+                                )),
                           ),
                         ),
                         const SizedBox(
@@ -225,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         FadeAnimation(
                           delay: 3.5,
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 200),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, 47)),
                               onPressed: () {

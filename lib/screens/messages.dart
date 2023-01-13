@@ -43,6 +43,7 @@ class _MessagesState extends State<MessagesScreen> {
               SizedBox(
                 height: 12,
               ),
+              //ChatBodyWidget(users: users),
             ],
           ),
         ),

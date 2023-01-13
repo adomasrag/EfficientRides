@@ -54,6 +54,7 @@ class _PersistentBottomBarScaffoldState extends State<PersistentBottomBarScaffol
               activeColor: Colors.white,
               tabBackgroundColor: Colors.grey.shade800,
               gap: 8,
+              duration: const Duration(milliseconds: 100),
               padding: EdgeInsets.all(16),
               selectedIndex: _selectedTab,
               tabs: widget.tabs.map((item) => GButton(icon: item.icon, text: item.text)).toList(),

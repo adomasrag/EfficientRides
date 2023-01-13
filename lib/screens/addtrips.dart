@@ -44,7 +44,7 @@ class _AddTripsState extends State<AddTripsScreen> {
           _dateInputController.text,
         );
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Trip added')));
-        Timer(Duration(seconds: 2), () {
+        Timer(const Duration(seconds: 2), () {
           Navigator.of(context).pop();
         });
 
