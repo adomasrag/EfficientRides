@@ -30,19 +30,27 @@ dependencies:
   cupertino_icons: ^1.0.5
   simple_animations:  ^4.0.1
   supercharged: ^2.1.1
+
+  intl: ^0.17.0
+
+  # Firebase
+  firebase_storage: ^11.0.8
   firebase_auth: ^4.2.0
   cloud_firestore: ^4.2.0
   firebase_core_platform_interface: 4.5.2
-  provider: ^6.0.4
   firebase_core: ^2.4.0
-  intl: ^0.17.0
-  firebase_storage: ^11.0.8
+
   image_picker: ^0.8.6
-  google_fonts: ^3.0.1
   google_nav_bar: ^5.0.6
+  intl_phone_number_input: ^0.7.2
+  flutter_animated_button: ^2.0.2
+  introduction_screen: ^3.1.4
+  shared_preferences: ^2.0.16
+  after_layout: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -58,7 +66,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

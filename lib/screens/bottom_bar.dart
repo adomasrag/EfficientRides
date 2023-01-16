@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:loginuicolors/models/bottom_bar_scaffold.dart';
 import 'package:loginuicolors/screens/home.dart';
-import 'package:loginuicolors/screens/triphistory.dart';
 import 'package:loginuicolors/screens/messages.dart';
 import 'package:loginuicolors/screens/profile.dart';
-import '../models/bottom_bar_scaffold.dart';
+import 'package:loginuicolors/screens/triphistory.dart';
 
 class HomeScreen extends StatelessWidget {
   final _tab1navigatorKey = GlobalKey<NavigatorState>();
@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
         ),
         GButtonItem(
           icon: Icons.route_outlined,
-          text: 'Rides',
+          text: 'Trips',
           tab: TripHistoryScreen(),
           navigatorkey: _tab2navigatorKey,
         ),
