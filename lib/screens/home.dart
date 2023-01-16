@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:loginuicolors/screens/findtrips.dart';
 import 'addtrips.dart';
 import 'itemdetails.dart';
 import '../animation/fadeanimation.dart';
@@ -33,15 +32,13 @@ class _NamaiState extends State<NamaiScreen> {
       return null;
   }
 
-  @override
   Widget buildHeader(UserModel user, double w, double h) => Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          bottom: false,
           child: Container(
-            margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 10),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const SizedBox(
                   height: 10,
@@ -87,67 +84,32 @@ class _NamaiState extends State<NamaiScreen> {
                     ],
                   ),
                 ),
-                FadeAnimation(
-                  delay: 2.5,
-                  child: Container(
-                    child: SizedBox(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AvailableTripsScreen()),
-                          );
-                        },
-                        child: const Text(
-                          "Find a ride",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.orange.shade400,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6),
-                      ),
-                    ),
-                    margin: EdgeInsets.fromLTRB(0, 30, 0, 15),
-                    width: w / 1.5,
-                    height: h / 12,
-                    alignment: Alignment.center,
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: _streamRides,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(child: Text('An error has occured. ${snapshot.error}'));
+                      }
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        QuerySnapshot querySnapshot = snapshot.data;
+                        List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+
+                        return ListView.builder(
+                            itemCount: documents.length,
+                            itemBuilder: (context, index) {
+                              QueryDocumentSnapshot document = documents[index];
+
+                              return ShoppingListItem(document: document);
+                            });
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
                   ),
                 ),
-                /*Expanded(
-                  child: SingleChildScrollView(
-                    //padding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _streamRides,
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasError) {
-                          return Center(child: Text('An error has occured. ${snapshot.error}'));
-                        }
-                        if (snapshot.connectionState == ConnectionState.active) {
-                          QuerySnapshot querySnapshot = snapshot.data;
-                          List<QueryDocumentSnapshot> documents = querySnapshot.docs;
-
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: documents.length,
-                              itemBuilder: (context, index) {
-                                QueryDocumentSnapshot document = documents[index];
-
-                                return ShoppingListItem(document: document);
-                              });
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ),*/
               ],
             ),
           ),
@@ -158,16 +120,14 @@ class _NamaiState extends State<NamaiScreen> {
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
-    print('Namukas build');
 
     return Scaffold(
-      backgroundColor: Colors.black87,
       body: SafeArea(
           child: FutureBuilder<UserModel?>(
               future: readUser(),
               builder: (context, snapshot) {
                 final user = snapshot.data;
-                return user == null ? Center(child: Text('User error')) : buildHeader(user, w, h);
+                return user == null ? Center(child: CircularProgressIndicator()) : buildHeader(user, w, h);
               })),
     );
   }
@@ -190,31 +150,109 @@ class _ShoppingListItemState extends State<ShoppingListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemDetails(widget.document.id)));
-      },
-      title: Text(
-        widget.document['from'],
-        style: TextStyle(color: Colors.white),
-      ),
-      subtitle: Text(
-        widget.document['to'],
-        style: TextStyle(color: Colors.white),
-      ),
-      trailing: Theme(
-        data: Theme.of(context).copyWith(
-          unselectedWidgetColor: Colors.white,
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.zero,
+          //height: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.all(
+              Radius.circular(6),
+            ),
+          ),
+          child: ListTile(
+            //visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+            minVerticalPadding: 15,
+            contentPadding: EdgeInsets.fromLTRB(16, -20, 16, 0),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ItemDetails(widget.document.id)));
+            },
+            title: Text(
+              "${widget.document['from']} - ${widget.document['to']}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+              ),
+            ),
+            trailing: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  "${widget.document['departureDate']}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                Text(
+                  "${widget.document['departureTime']}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(
+                      text: "Price per person: ",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                      children: [
+                        TextSpan(
+                            text: "${widget.document['pricePerPerson']}",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ))
+                      ]),
+                ),
+                RichText(
+                  text: TextSpan(
+                      text: "Free seats: ",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                      children: [
+                        TextSpan(
+                            text: "${widget.document['freeSeats']}",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ))
+                      ]),
+                ),
+              ],
+            ),
+            // trailing: Theme(
+            //   data: Theme.of(context).copyWith(
+            //     unselectedWidgetColor: Colors.white,
+            //   ),
+            //   child: Checkbox(
+            //     onChanged: (value) {
+            //       setState(() {
+            //         _purchased = value ?? false;
+            //       });
+            //     },
+            //     value: _purchased,
+            //   ),
+            // ),
+          ),
         ),
-        child: Checkbox(
-          onChanged: (value) {
-            setState(() {
-              _purchased = value ?? false;
-            });
-          },
-          value: _purchased,
+        SizedBox(
+          height: 10,
         ),
-      ),
+      ],
     );
   }
 }

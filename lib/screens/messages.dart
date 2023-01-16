@@ -20,7 +20,6 @@ class _MessagesState extends State<MessagesScreen> {
     final h = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.black87,
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.fromLTRB(30, 30, 30, 20),

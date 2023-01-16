@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loginuicolors/screens/forgot_password.dart';
+import 'forgot_password.dart';
 //
 import '../animation/fadeanimation.dart';
 
@@ -63,6 +63,12 @@ class _LoginScreenState extends State<LoginScreen> {
         case "wrong-password":
           getMessageFromErrorCode = "Wrong email/password combination.";
           break;
+        case "network-request-failed":
+          getMessageFromErrorCode = "No internet connection.";
+          break;
+        case "too-many-requests":
+          getMessageFromErrorCode = "Please wait before trying again.";
+          break;
         case "user-not-found":
           getMessageFromErrorCode = "No user found with this email.";
           break;
@@ -82,6 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(getMessageFromErrorCode)));
       print(e.code);
+      setState(() {
+        _isInitialValue = !_isInitialValue;
+      });
     }
   }
 
@@ -91,6 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
+
+  bool _isInitialValue = true;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          backgroundColor: Colors.black87,
           body: SafeArea(
             child: Container(
               width: w,
@@ -163,12 +173,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   TextFormField(
                                     controller: _emailController,
+                                    textInputAction: TextInputAction.next,
                                     decoration: InputDecoration(
                                       labelText: 'Email',
                                       labelStyle: TextStyle(color: Colors.white),
                                       border: const OutlineInputBorder(),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(color: Colors.white),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFF14C3AE),
+                                        ),
                                       ),
                                     ),
                                     style: TextStyle(
@@ -183,6 +199,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }
                                       return null;
                                     },
+                                    autofillHints: const [
+                                      AutofillHints.email,
+                                    ],
+                                    keyboardType: TextInputType.emailAddress,
                                   ),
                                   const SizedBox(
                                     height: 15,
@@ -196,6 +216,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       border: const OutlineInputBorder(),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(color: Colors.white),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFF14C3AE),
+                                        ),
                                       ),
                                     ),
                                     style: TextStyle(
@@ -224,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             GestureDetector(
                                 onTap: () => Navigator.of(context).push(
-                                      CupertinoPageRoute(
+                                      MaterialPageRoute(
                                         builder: (context) => const ForgotPasswordScreen(),
                                       ),
                                     ),
@@ -233,8 +258,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: const Text(
                                     "Forgot Password?",
                                     style: TextStyle(
-                                      color: Color.fromRGBO(15, 114, 195, 1),
+                                      color: Color(0xFF1480C3),
                                       fontSize: 14,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 )),
@@ -248,33 +274,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         FadeAnimation(
                           delay: 3.5,
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
+                            duration: Duration(milliseconds: 200),
                             child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, 47)),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFF14C3AE), minimumSize: Size(w / 1.1, 47)),
                               onPressed: () {
                                 final isValid = formKey.currentState!.validate();
                                 if (isValid) {
                                   signIn();
+                                  setState(() {
+                                    _isInitialValue = !_isInitialValue;
+                                  });
                                 }
                               },
-
-/*
-                                onPressed: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                                    if (result == null) {
-                                      setState(() {
-                                        error = Strings.couldNotLogInCred;
-                                      });
-                                      return;
-                                    }
-                                    await Navigator.pushReplacementNamed(
-                                        context, Strings.userInfoPath);
-                                  }
-                                }
-*/
-
-                              child: const Text("Log In"),
+                              child: ClipRRect(
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  child: const Text(
+                                    "Log In",
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  curve: Curves.decelerate,
+                                  alignment: _isInitialValue ? Alignment(0, 0) : Alignment(2.0, 0.3),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -282,7 +305,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 20,
                         ),
 
-                        /// REGISTER TEXT
+                        /// Sign up TEXT
 
                         const SizedBox(
                           height: 10,
@@ -315,7 +338,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           TextSpan(
                                               text: " Sign up.",
                                               style: TextStyle(
-                                                color: Color.fromRGBO(15, 114, 195, 1),
+                                                color: Color(0xFF1480C3),
                                                 fontWeight: FontWeight.bold,
                                               ))
                                         ]),

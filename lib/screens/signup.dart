@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loginuicolors/models/userModel.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 //
 import '../animation/fadeanimation.dart';
 
@@ -19,6 +20,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   String? confirmPass;
   final formKey = GlobalKey<FormState>();
+  PhoneNumber number = PhoneNumber(isoCode: 'LT');
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -52,7 +54,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _firstNameController.text.trim(),
         _lastNameController.text.trim(),
         _emailController.text.trim(),
-        int.parse(_phoneController.text.trim()),
+        int.parse(
+          _phoneController.text.trim().replaceAll(RegExp('[^A-Za-z0-9]'), ''),
+        ),
       );
     } on FirebaseAuthException catch (e) {
       String getMessageFromErrorCode;
@@ -94,12 +98,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     final h = MediaQuery.of(context).size.height;
-    print(h);
-    print(w);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.black87,
         body: SafeArea(
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 40, 20, 20),
@@ -131,9 +132,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            Divider(
-                              color: Colors.grey.shade800,
-                              //thickness: 1,
+                            FadeAnimation(
+                              delay: 2.0,
+                              child: Divider(
+                                color: Colors.grey.shade800,
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
@@ -146,6 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   Flexible(
                                     child: TextFormField(
                                       controller: _firstNameController,
+                                      textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
                                         labelText: 'First Name',
                                         labelStyle: TextStyle(color: Colors.white),
@@ -171,6 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   Flexible(
                                     child: TextFormField(
                                       controller: _lastNameController,
+                                      textInputAction: TextInputAction.next,
                                       decoration: InputDecoration(
                                         labelText: 'Last Name',
                                         labelStyle: TextStyle(color: Colors.white),
@@ -196,6 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const SizedBox(
                               height: 15,
                             ),
+
                             FadeAnimation(
                               delay: 2.0,
                               child: TextFormField(
@@ -223,6 +229,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                   return null;
                                 },
+                                autofillHints: const [
+                                  AutofillHints.email,
+                                ],
+                                keyboardType: TextInputType.emailAddress,
+                                //   TextInputType.emailAddress
                               ),
                             ),
                             const SizedBox(
@@ -230,9 +241,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             FadeAnimation(
                               delay: 2.0,
-                              child: TextFormField(
-                                controller: _phoneController,
-                                decoration: InputDecoration(
+                              child: InternationalPhoneNumberInput(
+                                onInputChanged: (PhoneNumber number) {
+                                  print(number.phoneNumber!);
+                                },
+                                selectorTextStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                keyboardAction: TextInputAction.next,
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                inputDecoration: InputDecoration(
                                   labelText: 'Phone Number',
                                   labelStyle: TextStyle(color: Colors.white),
                                   border: const OutlineInputBorder(),
@@ -240,20 +260,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     borderSide: const BorderSide(color: Colors.white),
                                   ),
                                 ),
-                                style: TextStyle(
-                                  color: Colors.white,
+                                selectorConfig: SelectorConfig(
+                                  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                                  setSelectorButtonAsPrefixIcon: true,
+                                  leadingPadding: 20,
                                 ),
-                                validator: (String? value) {
-                                  final pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-                                  final regExp = RegExp(pattern);
-                                  if (value == null || value == '') {
-                                    return "Enter a phone number";
-                                  }
-                                  if (!regExp.hasMatch(value)) {
-                                    return "Enter a valid phone number";
-                                  }
-                                  return null;
-                                },
+                                //ignoreBlank: false,
+                                initialValue: number,
+                                textFieldController: _phoneController,
+                                formatInput: true,
+                                keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                               ),
                             ),
                             const SizedBox(
@@ -264,6 +280,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: TextFormField(
                                 controller: _passwordController,
                                 obscureText: true,
+                                textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
                                   labelStyle: TextStyle(color: Colors.white),
@@ -322,7 +339,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             FadeAnimation(
                               delay: 3.5,
                               child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, 47)),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF14C3AE), minimumSize: Size(w / 1.1, 47)),
                                 onPressed: () {
                                   final isValid = formKey.currentState!.validate();
                                   if (isValid) {
@@ -350,6 +368,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Divider(
+                          indent: 15,
+                          endIndent: 15,
                           color: Colors.grey.shade800,
                         ),
                         SizedBox(

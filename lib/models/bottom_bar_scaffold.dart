@@ -13,8 +13,10 @@ class PersistentBottomBarScaffold extends StatefulWidget {
 
 class _PersistentBottomBarScaffoldState extends State<PersistentBottomBarScaffold> {
   int _selectedTab = 0;
+
   @override
   Widget build(BuildContext context) {
+    bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     return WillPopScope(
       onWillPop: () async {
         /// Check if curent tab can be popped
@@ -27,6 +29,8 @@ class _PersistentBottomBarScaffoldState extends State<PersistentBottomBarScaffol
         }
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
+
         /// Using indexedStack to maintain the order of the tabs and the state of the previously opened tab
         body: IndexedStack(
           index: _selectedTab,
@@ -44,37 +48,39 @@ class _PersistentBottomBarScaffoldState extends State<PersistentBottomBarScaffol
 
         /// Define the persistent bottom bar
 
-        bottomNavigationBar: Container(
-          color: Colors.black,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-            child: GNav(
-              backgroundColor: Colors.black,
-              color: Colors.white,
-              activeColor: Colors.white,
-              tabBackgroundColor: Colors.grey.shade800,
-              gap: 8,
-              duration: const Duration(milliseconds: 100),
-              padding: EdgeInsets.all(16),
-              selectedIndex: _selectedTab,
-              tabs: widget.tabs.map((item) => GButton(icon: item.icon, text: item.text)).toList(),
-              onTabChange: (index) {
-                if (index == _selectedTab) {
-                  /// if you want to pop the current tab to its root then use
-                  widget.tabs[index].navigatorkey?.currentState?.popUntil((route) => route.isFirst);
+        bottomNavigationBar: isKeyboardOpen
+            ? null
+            : Container(
+                color: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
+                  child: GNav(
+                    backgroundColor: Colors.black,
+                    color: Colors.white,
+                    activeColor: Colors.white,
+                    tabBackgroundColor: Theme.of(context).primaryColor,
+                    gap: 8,
+                    duration: const Duration(milliseconds: 350),
+                    padding: EdgeInsets.all(16),
+                    selectedIndex: _selectedTab,
+                    tabs: widget.tabs.map((item) => GButton(icon: item.icon, text: item.text)).toList(),
+                    onTabChange: (index) {
+                      if (index == _selectedTab) {
+                        /// if you want to pop the current tab to its root then use
+                        widget.tabs[index].navigatorkey?.currentState?.popUntil((route) => route.isFirst);
 
-                  /// if you want to pop the current tab to its last page
-                  /// then use
-                  // widget.items[index].navigatorkey?.currentState?.pop();
-                } else {
-                  setState(() {
-                    _selectedTab = index;
-                  });
-                }
-              },
-            ),
-          ),
-        ),
+                        /// if you want to pop the current tab to its last page
+                        /// then use
+                        // widget.items[index].navigatorkey?.currentState?.pop();
+                      } else {
+                        setState(() {
+                          _selectedTab = index;
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
       ),
     );
   }

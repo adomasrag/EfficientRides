@@ -7,7 +7,7 @@ class UserModel {
   final String id;
   final String? profileImage;
   final int phone;
-  final DateTime? lastMessageTime;
+  //final DateTime? lastMessageTime;
 
   UserModel({
     required this.firstName,
@@ -16,7 +16,7 @@ class UserModel {
     required this.id,
     this.profileImage,
     required this.phone,
-    this.lastMessageTime,
+    //this.lastMessageTime,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -26,7 +26,7 @@ class UserModel {
         id: json['id'],
         profileImage: json['profileImage'],
         phone: json['phone'],
-        lastMessageTime: toDateTime(json['lastMessageTime']),
+        //lastMessageTime: toDateTime(json['lastMessageTime']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,7 +36,7 @@ class UserModel {
         'id': id,
         'profileImage': profileImage,
         'phone': phone,
-        'lastMessageTime': fromDateTimeToJson(lastMessageTime),
+        //'lastMessageTime': fromDateTimeToJson(lastMessageTime),
       };
 
   static dynamic fromDateTimeToJson(DateTime? date) {

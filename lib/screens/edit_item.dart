@@ -19,6 +19,7 @@ class EditItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black87,
       appBar: AppBar(
         title: Text('Edit an item'),
       ),
@@ -44,7 +45,7 @@ class EditItem extends StatelessWidget {
                 decoration: InputDecoration(hintText: 'Enter to'),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter the item quantityy';
+                    return 'Please enter the item quantity';
                   }
 
                   return null;

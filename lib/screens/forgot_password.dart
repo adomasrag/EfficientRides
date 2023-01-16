@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loginuicolors/screens/login.dart';
 
 ///
 import '../animation/fadeanimation.dart';
@@ -24,8 +25,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   /// FireBase Reset Password Method
   Future resetPassword() async {
     try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: _emailController.text.trim());
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text.trim());
 
       /// Showing Message That user enters email correctly and reset password will be sent
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -41,8 +41,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       print(e);
 
       /// Showing Error with SnackBar if the user enter the wrong Email or Enter nothing
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message.toString())));
     }
   }
 
@@ -56,73 +55,103 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        /// APPBAR
-        appBar: AppBar(
-          title: const Text("efficientRides"),
-          centerTitle: true,
-        ),
-
-        /// Body
         body: Padding(
           padding: const EdgeInsets.all(17.0),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                /// FLUTTER IMAGE
-                FadeAnimation(
-                  delay: 1,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 35),
-                    height: h / 4,
-                    width: w / 1.5,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      /// FLUTTER IMAGE
+                      FadeAnimation(
+                        delay: 1,
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 35),
+                          height: h / 4,
+                          width: w / 1.5,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      /// Top Text
+                      FadeAnimation(
+                        delay: 1.5,
+                        child: const Text(
+                          "Enter Your Email and we will send you a password reset link.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 25,
+                      ),
+
+                      /// Email TextField
+                      FadeAnimation(
+                        delay: 2.0,
+                        child: TextField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Email',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      /// LOG IN BUTTON
+                      FadeAnimation(
+                        delay: 2.5,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(minimumSize: Size(w / 1.1, h / 15)),
+                          onPressed: resetPassword,
+                          child: const Text("Reset Password"),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-
-                /// Top Text
-                FadeAnimation(
-                  delay: 1.5,
-                  child: const Text(
-                    "Enter Your Email and we will send you a password reset link.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
+              ),
+              Container(
+                color: Colors.transparent,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Divider(
+                        color: Colors.grey.shade800,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Return to login",
+                          style: TextStyle(
+                            color: Color.fromRGBO(15, 114, 195, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-
-                const SizedBox(
-                  height: 25,
-                ),
-
-                /// Email TextField
-                FadeAnimation(
-                  delay: 2.0,
-                  child: TextField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Email',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-
-                /// LOG IN BUTTON
-                FadeAnimation(
-                  delay: 2.5,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(w / 1.1, h / 15)),
-                    onPressed: resetPassword,
-                    child: const Text("Reset Password"),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
